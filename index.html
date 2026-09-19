@@ -1,0 +1,1624 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#050507">
+
+<title>CAR | Motorcycle Experience</title>
+
+<style>
+:root{
+  --accent:#d7ff00;
+  --accent2:#ffffff;
+  --bg:#030305;
+  --panel:rgba(255,255,255,.075);
+  --border:rgba(255,255,255,.14);
+  --muted:#9b9ba5;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+}
+
+html{
+  scroll-behavior:smooth;
+}
+
+body{
+  min-height:100vh;
+  color:#fff;
+  background:#030305;
+  font-family:Arial,Helvetica,sans-serif;
+  overflow-x:hidden;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+body::before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:-5;
+  background:
+    radial-gradient(circle at 20% 20%,var(--accent),transparent 28%),
+    radial-gradient(circle at 85% 75%,var(--accent),transparent 25%),
+    #030305;
+  opacity:.10;
+  transition:background 1s ease;
+}
+
+.grid{
+  position:fixed;
+  inset:0;
+  z-index:-4;
+  opacity:.13;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);
+  background-size:55px 55px;
+  transform:perspective(600px) rotateX(58deg) scale(1.7);
+  transform-origin:center bottom;
+  mask-image:linear-gradient(to top,black,transparent 80%);
+}
+
+.noise{
+  position:fixed;
+  inset:0;
+  z-index:20;
+  pointer-events:none;
+  opacity:.035;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.particles{
+  position:fixed;
+  inset:0;
+  z-index:-2;
+  pointer-events:none;
+}
+
+.particle{
+  position:absolute;
+  width:3px;
+  height:3px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 15px var(--accent);
+  opacity:.7;
+  animation:particleMove linear infinite;
+}
+
+@keyframes particleMove{
+  from{
+    transform:translateY(110vh) translateX(0);
+    opacity:0;
+  }
+  20%{opacity:.7}
+  80%{opacity:.4}
+  to{
+    transform:translateY(-20vh) translateX(80px);
+    opacity:0;
+  }
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  right:0;
+  z-index:50;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 24px;
+  backdrop-filter:blur(18px);
+  background:linear-gradient(
+    to bottom,
+    rgba(0,0,0,.72),
+    rgba(0,0,0,.15)
+  );
+}
+
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.brand-mark{
+  width:36px;
+  height:36px;
+  border:2px solid var(--accent);
+  display:grid;
+  place-items:center;
+  border-radius:10px;
+  color:var(--accent);
+  font-weight:900;
+  font-size:13px;
+  box-shadow:0 0 25px color-mix(
+    in srgb,
+    var(--accent),
+    transparent 55%
+  );
+}
+
+.brand-name{
+  font-size:21px;
+  font-weight:900;
+  letter-spacing:5px;
+}
+
+.menu-btn{
+  width:44px;
+  height:44px;
+  border:1px solid var(--border);
+  border-radius:13px;
+  background:rgba(255,255,255,.06);
+  color:#fff;
+  font-size:22px;
+  backdrop-filter:blur(12px);
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+  min-height:100svh;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:100px 20px 60px;
+  overflow:hidden;
+}
+
+.hero-glow{
+  position:absolute;
+  width:60vw;
+  height:60vw;
+  max-width:650px;
+  max-height:650px;
+  border-radius:50%;
+  background:var(--accent);
+  filter:blur(150px);
+  opacity:.08;
+  transition:all 1s ease;
+}
+
+.hero-content{
+  width:100%;
+  max-width:1100px;
+  text-align:center;
+  position:relative;
+  z-index:3;
+}
+
+.eyebrow{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 14px;
+  border:1px solid var(--border);
+  border-radius:100px;
+  background:rgba(255,255,255,.05);
+  color:#c7c7cd;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.live-dot{
+  width:7px;
+  height:7px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 14px var(--accent);
+}
+
+.hero h1{
+  margin-top:20px;
+  font-size:clamp(58px,15vw,145px);
+  line-height:.78;
+  letter-spacing:-8px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+
+.hero h1 span{
+  color:transparent;
+  -webkit-text-stroke:1px rgba(255,255,255,.5);
+}
+
+.hero-subtitle{
+  margin:28px auto 0;
+  max-width:620px;
+  color:#a6a6af;
+  font-size:15px;
+  line-height:1.7;
+}
+
+.scroll-hint{
+  margin-top:32px;
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  align-items:center;
+  color:#777780;
+  font-size:11px;
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.scroll-line{
+  width:45px;
+  height:1px;
+  background:var(--accent);
+}
+
+/* =========================
+   SELECTOR
+========================= */
+
+.selector-section{
+  position:relative;
+  padding:80px 18px;
+}
+
+.section-head{
+  max-width:1100px;
+  margin:auto;
+  text-align:center;
+}
+
+.section-kicker{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+
+.section-title{
+  margin-top:12px;
+  font-size:clamp(35px,8vw,70px);
+  font-weight:900;
+  letter-spacing:-3px;
+}
+
+.section-description{
+  margin:15px auto 40px;
+  max-width:580px;
+  color:#898992;
+  line-height:1.6;
+}
+
+.bike-selector{
+  width:100%;
+  max-width:1100px;
+  margin:auto;
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:15px;
+}
+
+.bike-option{
+  position:relative;
+  min-height:270px;
+  padding:25px;
+  border:1px solid var(--border);
+  border-radius:25px;
+  overflow:hidden;
+  background:linear-gradient(
+    145deg,
+    rgba(255,255,255,.08),
+    rgba(255,255,255,.025)
+  );
+  cursor:pointer;
+  transition:.45s ease;
+}
+
+.bike-option::before{
+  content:"";
+  position:absolute;
+  width:170px;
+  height:170px;
+  right:-70px;
+  bottom:-70px;
+  border-radius:50%;
+  background:var(--bike-color);
+  filter:blur(55px);
+  opacity:.28;
+}
+
+.bike-option:hover,
+.bike-option.active{
+  transform:translateY(-8px);
+  border-color:var(--bike-color);
+  box-shadow:0 25px 70px rgba(0,0,0,.45);
+}
+
+.bike-number{
+  color:#777780;
+  font-size:12px;
+  letter-spacing:2px;
+}
+
+.bike-brand{
+  margin-top:35px;
+  font-size:11px;
+  color:var(--bike-color);
+  letter-spacing:3px;
+  text-transform:uppercase;
+}
+
+.bike-option h3{
+  margin-top:8px;
+  font-size:24px;
+}
+
+.bike-type{
+  margin-top:8px;
+  color:#85858e;
+  font-size:13px;
+}
+
+.bike-color-line{
+  position:absolute;
+  left:25px;
+  right:25px;
+  bottom:25px;
+  height:2px;
+  background:linear-gradient(
+    90deg,
+    var(--bike-color),
+    transparent
+  );
+}
+
+/* =========================
+   BIKE EXPERIENCE
+========================= */
+
+.experience{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 18px 100px;
+}
+
+.experience-card{
+  position:relative;
+  min-height:650px;
+  border:1px solid var(--border);
+  border-radius:35px;
+  overflow:hidden;
+  background:#070709;
+  box-shadow:0 40px 120px rgba(0,0,0,.55);
+}
+
+.experience-bg{
+  position:absolute;
+  inset:0;
+  background:
+    radial-gradient(
+      circle at 70% 40%,
+      var(--accent),
+      transparent 32%
+    ),
+    linear-gradient(
+      135deg,
+      #101014,
+      #020203
+    );
+  opacity:.22;
+  transition:1s ease;
+}
+
+.experience-lines{
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 40%,
+      rgba(255,255,255,.08) 50%,
+      transparent 60%
+    );
+  animation:sweep 8s infinite linear;
+}
+
+@keyframes sweep{
+  from{transform:translateX(-100%)}
+  to{transform:translateX(100%)}
+}
+
+.experience-content{
+  position:relative;
+  z-index:3;
+  min-height:650px;
+  padding:55px;
+  display:flex;
+  flex-direction:column;
+  justify-content:space-between;
+}
+
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+}
+
+.model-label{
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:4px;
+  text-transform:uppercase;
+}
+
+.model-name{
+  margin-top:10px;
+  font-size:clamp(42px,8vw,90px);
+  line-height:.85;
+  letter-spacing:-5px;
+  font-weight:950;
+}
+
+.model-desc{
+  margin-top:18px;
+  max-width:480px;
+  color:#9999a2;
+  line-height:1.6;
+  font-size:14px;
+}
+
+.performance{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  max-width:650px;
+}
+
+.stat{
+  padding:18px;
+  border:1px solid var(--border);
+  border-radius:17px;
+  background:rgba(0,0,0,.3);
+  backdrop-filter:blur(15px);
+}
+
+.stat strong{
+  display:block;
+  font-size:25px;
+  color:#fff;
+}
+
+.stat span{
+  display:block;
+  margin-top:6px;
+  color:#777780;
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.action-row{
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+}
+
+.primary-btn,
+.secondary-btn{
+  border:none;
+  padding:15px 22px;
+  border-radius:14px;
+  font-weight:800;
+  cursor:pointer;
+  transition:.3s;
+}
+
+.primary-btn{
+  background:var(--accent);
+  color:#050505;
+  box-shadow:0 0 30px color-mix(
+    in srgb,
+    var(--accent),
+    transparent 65%
+  );
+}
+
+.secondary-btn{
+  background:rgba(255,255,255,.07);
+  color:#fff;
+  border:1px solid var(--border);
+}
+
+.primary-btn:hover,
+.secondary-btn:hover{
+  transform:translateY(-3px);
+}
+
+/* =========================
+   DETAIL
+========================= */
+
+.details{
+  max-width:1100px;
+  margin:auto;
+  padding:20px 18px 100px;
+}
+
+.detail-grid{
+  display:grid;
+  grid-template-columns:1.2fr .8fr;
+  gap:18px;
+}
+
+.detail-panel{
+  padding:30px;
+  border:1px solid var(--border);
+  border-radius:25px;
+  background:var(--panel);
+  backdrop-filter:blur(20px);
+}
+
+.detail-panel h3{
+  font-size:20px;
+  margin-bottom:25px;
+}
+
+.spec-list{
+  display:grid;
+  gap:13px;
+}
+
+.spec{
+  display:flex;
+  justify-content:space-between;
+  gap:20px;
+  padding-bottom:13px;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+.spec span{
+  color:#777780;
+}
+
+.spec strong{
+  text-align:right;
+}
+
+/* =========================
+   AI
+========================= */
+
+.ai-box{
+  position:relative;
+  overflow:hidden;
+}
+
+.ai-box::before{
+  content:"AI";
+  position:absolute;
+  right:-15px;
+  top:-35px;
+  font-size:150px;
+  font-weight:950;
+  color:rgba(255,255,255,.025);
+}
+
+.ai-status{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--accent);
+  font-size:11px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+}
+
+.ai-orb{
+  width:12px;
+  height:12px;
+  border-radius:50%;
+  background:var(--accent);
+  box-shadow:0 0 20px var(--accent);
+}
+
+.ai-question{
+  margin:22px 0;
+  color:#aaaab3;
+  line-height:1.5;
+}
+
+.ai-buttons{
+  display:grid;
+  gap:9px;
+}
+
+.ai-choice{
+  padding:13px;
+  border:1px solid var(--border);
+  border-radius:12px;
+  background:rgba(255,255,255,.04);
+  color:#fff;
+  text-align:left;
+  cursor:pointer;
+}
+
+.ai-result{
+  display:none;
+  margin-top:18px;
+  padding:15px;
+  border-radius:14px;
+  background:rgba(255,255,255,.06);
+  color:#d6d6dc;
+  line-height:1.5;
+}
+
+/* =========================
+   WHATSAPP
+========================= */
+
+.whatsapp{
+  position:fixed;
+  right:18px;
+  bottom:18px;
+  z-index:45;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  padding:13px 17px;
+  border-radius:100px;
+  background:#25D366;
+  color:#04150a;
+  text-decoration:none;
+  font-size:13px;
+  font-weight:900;
+  box-shadow:0 15px 40px rgba(37,211,102,.25);
+  transition:.3s;
+}
+
+.whatsapp:hover{
+  transform:translateY(-4px);
+}
+
+/* =========================
+   VIDEO MODAL
+========================= */
+
+.video-modal{
+  position:fixed;
+  inset:0;
+  z-index:100;
+  display:none;
+  place-items:center;
+  padding:18px;
+  background:rgba(0,0,0,.92);
+  backdrop-filter:blur(20px);
+}
+
+.video-modal.show{
+  display:grid;
+  animation:modalIn .35s ease;
+}
+
+@keyframes modalIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+.video-container{
+  width:min(1100px,100%);
+  aspect-ratio:16/9;
+  position:relative;
+  border:1px solid rgba(255,255,255,.2);
+  border-radius:25px;
+  overflow:hidden;
+  background:#000;
+  box-shadow:0 30px 100px rgba(0,0,0,.8);
+}
+
+.video-container iframe{
+  width:100%;
+  height:100%;
+  border:0;
+}
+
+.close-video{
+  position:absolute;
+  right:15px;
+  top:15px;
+  z-index:5;
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  border:1px solid rgba(255,255,255,.2);
+  background:rgba(0,0,0,.65);
+  color:#fff;
+  font-size:22px;
+  cursor:pointer;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer{
+  padding:70px 20px 35px;
+  text-align:center;
+  border-top:1px solid rgba(255,255,255,.08);
+}
+
+.footer-logo{
+  font-size:32px;
+  font-weight:950;
+  letter-spacing:7px;
+}
+
+.footer-text{
+  margin-top:12px;
+  color:#66666f;
+  font-size:12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media(max-width:800px){
+
+  header{
+    padding:16px;
+  }
+
+  .hero{
+    padding-top:110px;
+  }
+
+  .hero h1{
+    letter-spacing:-5px;
+  }
+
+  .bike-selector{
+    grid-template-columns:1fr;
+  }
+
+  .bike-option{
+    min-height:190px;
+  }
+
+  .experience-card{
+    min-height:620px;
+  }
+
+  .experience-content{
+    min-height:620px;
+    padding:30px;
+  }
+
+  .model-name{
+    font-size:55px;
+  }
+
+  .performance{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  .stat{
+    padding:13px 8px;
+  }
+
+  .stat strong{
+    font-size:19px;
+  }
+
+  .detail-grid{
+    grid-template-columns:1fr;
+  }
+}
+
+@media(max-width:500px){
+
+  .brand-name{
+    font-size:17px;
+  }
+
+  .hero h1{
+    font-size:65px;
+  }
+
+  .performance{
+    gap:6px;
+  }
+
+  .stat strong{
+    font-size:16px;
+  }
+
+  .stat span{
+    font-size:8px;
+    letter-spacing:1px;
+  }
+
+  .experience-content{
+    padding:24px;
+  }
+
+  .model-name{
+    font-size:47px;
+  }
+
+  .whatsapp{
+    width:50px;
+    height:50px;
+    padding:0;
+    justify-content:center;
+    font-size:0;
+  }
+
+  .whatsapp::before{
+    content:"WA";
+    font-size:13px;
+    font-weight:900;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="grid"></div>
+<div class="noise"></div>
+<div class="particles" id="particles"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="brand">
+    <div class="brand-mark">C</div>
+    <div class="brand-name">CARD</div>
+  </div>
+
+  <button class="menu-btn" onclick="scrollToSelector()">
+    ☰
+  </button>
+</header>
+
+
+<!-- HERO -->
+<section class="hero" id="home">
+
+  <div class="hero-glow"></div>
+
+  <div class="hero-content">
+
+    <div class="eyebrow">
+      <span class="live-dot"></span>
+      PREMIUM MOTORCYCLE EXPERIENCE
+    </div>
+
+    <h1>
+      RIDE<br>
+      <span>THE FUTURE</span>
+    </h1>
+
+    <p class="hero-subtitle">
+      Tres máquinas. Tres personalidades.
+      Una experiencia creada para sentir cada detalle.
+    </p>
+
+    <div class="scroll-hint">
+      <span class="scroll-line"></span>
+      EXPLORE
+      <span class="scroll-line"></span>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- SELECTOR -->
+<section class="selector-section" id="selector">
+
+  <div class="section-head">
+
+    <div class="section-kicker">
+      CHOOSE YOUR MACHINE
+    </div>
+
+    <h2 class="section-title">
+      ELIGE TU MOTO
+    </h2>
+
+    <p class="section-description">
+      Selecciona una máquina para cambiar completamente
+      la atmósfera, los colores y la información de la experiencia.
+    </p>
+
+  </div>
+
+  <div class="bike-selector">
+
+    <article
+      class="bike-option active"
+      style="--bike-color:#e7e7e7"
+      onclick="selectBike('bmw')"
+    >
+      <div class="bike-number">01</div>
+      <div class="bike-brand">BMW Motorrad</div>
+      <h3>S 1000 RR</h3>
+      <div class="bike-type">Superbike • Inline 4</div>
+      <div class="bike-color-line"></div>
+    </article>
+
+    <article
+      class="bike-option"
+      style="--bike-color:#ff1838"
+      onclick="selectBike('ducati')"
+    >
+      <div class="bike-number">02</div>
+      <div class="bike-brand">Ducati</div>
+      <h3>Panigale V4</h3>
+      <div class="bike-type">Superbike • V4</div>
+      <div class="bike-color-line"></div>
+    </article>
+
+    <article
+      class="bike-option"
+      style="--bike-color:#138cff"
+      onclick="selectBike('yamaha')"
+    >
+      <div class="bike-number">03</div>
+      <div class="bike-brand">Yamaha</div>
+      <h3>R1M</h3>
+      <div class="bike-type">Superbike • Crossplane 4</div>
+      <div class="bike-color-line"></div>
+    </article>
+
+  </div>
+</section>
+
+
+<!-- EXPERIENCE -->
+<section class="experience">
+
+  <div class="experience-card" id="experience">
+
+    <div class="experience-bg"></div>
+    <div class="experience-lines"></div>
+
+    <div class="experience-content">
+
+      <div class="top-row">
+
+        <div>
+
+          <div class="model-label" id="brandLabel">
+            BMW MOTORRAD
+          </div>
+
+          <h2 class="model-name" id="modelName">
+            S 1000 RR
+          </h2>
+
+          <p class="model-desc" id="modelDescription">
+            Una superbike de cuatro cilindros
+            creada para combinar tecnología,
+            precisión y rendimiento.
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <div>
+
+        <div class="performance">
+
+          <div class="stat">
+            <strong id="power">205 HP</strong>
+            <span>Potencia</span>
+          </div>
+
+          <div class="stat">
+            <strong id="engine">999 CC</strong>
+            <span>Cilindrada</span>
+          </div>
+
+          <div class="stat">
+            <strong id="torque">113 NM</strong>
+            <span>Par</span>
+          </div>
+
+        </div>
+
+
+        <div class="action-row" style="margin-top:18px">
+
+          <button
+            class="primary-btn"
+            onclick="openTrailer()"
+          >
+            ▶ VER TRÁILER
+          </button>
+
+          <button
+            class="secondary-btn"
+            onclick="scrollToDetails()"
+          >
+            VER ESPECIFICACIONES
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- DETAILS -->
+<section class="details" id="details">
+
+  <div class="detail-grid">
+
+    <div class="detail-panel">
+
+      <h3>
+        Especificaciones
+      </h3>
+
+      <div class="spec-list">
+
+        <div class="spec">
+          <span>Modelo</span>
+          <strong id="specModel">BMW S 1000 RR</strong>
+        </div>
+
+        <div class="spec">
+          <span>Motor</span>
+          <strong id="specEngine">
+            4 cilindros en línea
+          </strong>
+        </div>
+
+        <div class="spec">
+          <span>Cilindrada</span>
+          <strong id="specCC">999 cc</strong>
+        </div>
+
+        <div class="spec">
+          <span>Potencia</span>
+          <strong id="specPower">205 hp</strong>
+        </div>
+
+        <div class="spec">
+          <span>Par máximo</span>
+          <strong id="specTorque">113 Nm</strong>
+        </div>
+
+        <div class="spec">
+          <span>Tecnología</span>
+          <strong id="specTech">
+            ShiftCam / DTC
+          </strong>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- AI -->
+    <div class="detail-panel ai-box">
+
+      <div class="ai-status">
+        <span class="ai-orb"></span>
+        CARD AI
+      </div>
+
+      <h3 style="margin-top:15px">
+        ¿Qué moto buscas?
+      </h3>
+
+      <p class="ai-question">
+        Responde una pregunta y el asistente
+        te mostrará qué experiencia encaja con
+        lo que estás buscando.
+      </p>
+
+      <div class="ai-buttons">
+
+        <button
+          class="ai-choice"
+          onclick="aiRecommend('track')"
+        >
+          🏁 Quiero circuito
+        </button>
+
+        <button
+          class="ai-choice"
+          onclick="aiRecommend('style')"
+        >
+          🔥 Quiero diseño agresivo
+        </button>
+
+        <button
+          class="ai-choice"
+          onclick="aiRecommend('technology')"
+        >
+          ⚡ Quiero tecnología
+        </button>
+
+      </div>
+
+      <div class="ai-result" id="aiResult"></div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+
+  <div class="footer-logo">
+    CARD
+  </div>
+
+  <p class="footer-text">
+    Premium Motorcycle Experience
+  </p>
+
+  <p class="footer-text">
+    BMW • Ducati • Yamaha
+  </p>
+
+</footer>
+
+
+<!-- WHATSAPP -->
+<a
+  class="whatsapp"
+  href="https://wa.me/584242052486?text=Hola%20CARD,%20quiero%20informaci%C3%B3n%20sobre%20las%20motos."
+  target="_blank"
+  rel="noopener"
+>
+  WhatsApp
+</a>
+
+
+<!-- VIDEO MODAL -->
+<div class="video-modal" id="videoModal">
+
+  <div class="video-container">
+
+    <button
+      class="close-video"
+      onclick="closeTrailer()"
+    >
+      ×
+    </button>
+
+    <iframe
+      id="trailerFrame"
+      src=""
+      title="Motorcycle trailer"
+      allow="autoplay; encrypted-media; picture-in-picture"
+      allowfullscreen
+    ></iframe>
+
+  </div>
+
+</div>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+const bikes = {
+
+  bmw:{
+    brand:"BMW MOTORRAD",
+    name:"S 1000 RR",
+    color:"#e7e7e7",
+    description:
+      "Una superbike de cuatro cilindros creada para combinar tecnología, precisión y rendimiento.",
+    power:"205 HP",
+    engine:"999 CC",
+    torque:"113 NM",
+    specEngine:"4 cilindros en línea",
+    specCC:"999 cc",
+    specPower:"205 hp",
+    specTorque:"113 Nm",
+    specTech:"ShiftCam / DTC / ABS Pro",
+
+    /*
+      Video oficial BMW Motorrad
+    */
+    video:"https://www.youtube.com/embed/zj8Bcn_aCzc?autoplay=1&rel=0"
+  },
+
+  ducati:{
+    brand:"DUCATI",
+    name:"PANIGALE V4",
+    color:"#ff1838",
+    description:
+      "La Panigale V4 combina el carácter de un V4 con una electrónica y aerodinámica enfocadas al alto rendimiento.",
+    power:"216 HP",
+    engine:"1,103 CC",
+    torque:"120.9 NM",
+    specEngine:"Desmosedici Stradale V4",
+    specCC:"1,103 cc",
+    specPower:"216 hp",
+    specTorque:"120.9 Nm",
+    specTech:"Ducati Quick Shift / Ride-by-Wire",
+
+    /*
+      Video oficial Ducati
+    */
+    video:"https://www.youtube.com/embed/tVU4fSr0qDM?autoplay=1&rel=0"
+  },
+
+  yamaha:{
+    brand:"YAMAHA",
+    name:"R1M",
+    color:"#138cff",
+    description:
+      "Una superbike inspirada en la tecnología de competición, con enfoque en electrónica, precisión y rendimiento.",
+    power:"200 PS",
+    engine:"998 CC",
+    torque:"113.7 NM",
+    specEngine:"4 cilindros Crossplane",
+    specCC:"998 cc",
+    specPower:"200 PS",
+    specTorque:"113.7 Nm",
+    specTech:"IMU / YRC / Öhlins",
+
+    /*
+      Video oficial Yamaha Motor USA
+    */
+    video:"https://www.youtube.com/embed/q_rFXubdWFs?autoplay=1&rel=0"
+  }
+
+};
+
+
+/* =========================
+   CURRENT BIKE
+========================= */
+
+let currentBike="bmw";
+
+
+/* =========================
+   SELECT BIKE
+========================= */
+
+function selectBike(id){
+
+  currentBike=id;
+
+  const bike=bikes[id];
+
+  document.documentElement.style.setProperty(
+    "--accent",
+    bike.color
+  );
+
+  document.getElementById("brandLabel").textContent=
+    bike.brand;
+
+  document.getElementById("modelName").textContent=
+    bike.name;
+
+  document.getElementById("modelDescription").textContent=
+    bike.description;
+
+  document.getElementById("power").textContent=
+    bike.power;
+
+  document.getElementById("engine").textContent=
+    bike.engine;
+
+  document.getElementById("torque").textContent=
+    bike.torque;
+
+  document.getElementById("specModel").textContent=
+    bike.brand+" "+bike.name;
+
+  document.getElementById("specEngine").textContent=
+    bike.specEngine;
+
+  document.getElementById("specCC").textContent=
+    bike.specCC;
+
+  document.getElementById("specPower").textContent=
+    bike.specPower;
+
+  document.getElementById("specTorque").textContent=
+    bike.specTorque;
+
+  document.getElementById("specTech").textContent=
+    bike.specTech;
+
+
+  document.querySelectorAll(".bike-option")
+    .forEach(card=>card.classList.remove("active"));
+
+  const index={
+    bmw:0,
+    ducati:1,
+    yamaha:2
+  }[id];
+
+  document.querySelectorAll(".bike-option")
+    [index]
+    .classList.add("active");
+
+}
+
+
+/* =========================
+   TRAILER
+========================= */
+
+function openTrailer(){
+
+  const bike=bikes[currentBike];
+
+  const modal=
+    document.getElementById("videoModal");
+
+  const frame=
+    document.getElementById("trailerFrame");
+
+  frame.src=bike.video;
+
+  modal.classList.add("show");
+
+  document.body.style.overflow="hidden";
+}
+
+
+function closeTrailer(){
+
+  const modal=
+    document.getElementById("videoModal");
+
+  const frame=
+    document.getElementById("trailerFrame");
+
+  frame.src="";
+
+  modal.classList.remove("show");
+
+  document.body.style.overflow="";
+}
+
+
+/* =========================
+   ESC CLOSE
+========================= */
+
+document.addEventListener(
+  "keydown",
+  function(event){
+
+    if(event.key==="Escape"){
+      closeTrailer();
+    }
+
+  }
+);
+
+
+/* =========================
+   SCROLL
+========================= */
+
+function scrollToSelector(){
+
+  document.getElementById(
+    "selector"
+  ).scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+
+function scrollToDetails(){
+
+  document.getElementById(
+    "details"
+  ).scrollIntoView({
+    behavior:"smooth"
+  });
+
+}
+
+
+/* =========================
+   LOCAL AI ASSISTANT
+========================= */
+
+function aiRecommend(type){
+
+  const result=
+    document.getElementById("aiResult");
+
+  result.style.display="block";
+
+  if(type==="track"){
+
+    result.innerHTML=
+      "<strong>Experiencia recomendada:</strong><br><br>"+
+      "La selección se enfoca en una superbike "+
+      "pensada para una experiencia deportiva.";
+
+  }
+
+  if(type==="style"){
+
+    result.innerHTML=
+      "<strong>Experiencia recomendada:</strong><br><br>"+
+      "La interfaz destaca la Ducati Panigale V4 "+
+      "con una atmósfera roja y agresiva.";
+
+  }
+
+  if(type==="technology"){
+
+    result.innerHTML=
+      "<strong>Experiencia recomendada:</strong><br><br>"+
+      "Explora la BMW S 1000 RR para conocer "+
+      "una combinación de electrónica y rendimiento.";
+
+  }
+
+}
+
+
+/* =========================
+   PARTICLES
+========================= */
+
+const particles=
+  document.getElementById("particles");
+
+for(let i=0;i<35;i++){
+
+  const p=
+    document.createElement("div");
+
+  p.className="particle";
+
+  p.style.left=
+    Math.random()*100+"%";
+
+  p.style.animationDuration=
+    (8+Math.random()*15)+"s";
+
+  p.style.animationDelay=
+    (-Math.random()*15)+"s";
+
+  p.style.opacity=
+    .2+Math.random()*.7;
+
+  particles.appendChild(p);
+
+}
+
+
+/* =========================
+   PHONE MOTION / PARALLAX
+========================= */
+
+function updateParallax(x,y){
+
+  const grid=
+    document.querySelector(".grid");
+
+  const glow=
+    document.querySelector(".hero-glow");
+
+  grid.style.transform=
+    "perspective(600px) rotateX("+
+    (58+y*3)+
+    "deg) translate("+
+    (x*12)+
+    "px,"+
+    (y*8)+
+    "px) scale(1.7)";
+
+  glow.style.transform=
+    "translate("+
+    (x*30)+
+    "px,"+
+    (y*20)+
+    "px)";
+}
+
+
+/* Device orientation */
+
+window.addEventListener(
+  "deviceorientation",
+  function(event){
+
+    const gamma=
+      Math.max(-30,Math.min(30,event.gamma||0));
+
+    const beta=
+      Math.max(-30,Math.min(30,event.beta||0));
+
+    updateParallax(
+      gamma/30,
+      beta/30
+    );
+
+  }
+);
+
+
+/* Mouse fallback for desktop */
+
+window.addEventListener(
+  "mousemove",
+  function(event){
+
+    const x=
+      (event.clientX/window.innerWidth-.5)*2;
+
+    const y=
+      (event.clientY/window.innerHeight-.5)*2;
+
+    updateParallax(x,y);
+
+  }
+);
+
+
+/* =========================
+   CLOSE MODAL BY BACKGROUND
+========================= */
+
+document.getElementById("videoModal")
+  .addEventListener(
+    "click",
+    function(event){
+
+      if(event.target===this){
+        closeTrailer();
+      }
+
+    }
+  );
+
+
+/* =========================
+   START
+========================= */
+
+selectBike("bmw");
+
+</script>
+
+</body>
+</html>
